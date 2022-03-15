@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Doggy</string>
+    <string name="made_with">Made with</string>
+    <string name="by_jeff_amady">by Jeff Amady</string>
 </resources>
