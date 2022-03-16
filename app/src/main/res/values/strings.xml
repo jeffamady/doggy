@@ -2,4 +2,10 @@
     <string name="app_name">Doggy</string>
     <string name="made_with">Made with</string>
     <string name="by_jeff_amady">by Jeff Amady</string>
+    <string name="sorry_something_went_wrong">Sorry! Something went wrong</string>
+    <string name="retry">Retry</string>
+    <string name="no_internet">No Internet Connection! Please make sure you are connected and try again.</string>
+    <string name="no_result">Sorry! We don\'t have Dog with this breed or sub breed</string>
+    <string name="search_breeds">Search Breeds</string>
+    <string name="a_dog">a dog</string>
 </resources>

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.amadydev.doggy.MainActivity
+import com.amadydev.doggy.ui.main.MainActivity
 import com.amadydev.doggy.R
 import dagger.hilt.android.AndroidEntryPoint
 
