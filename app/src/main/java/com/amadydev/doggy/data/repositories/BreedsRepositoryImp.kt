@@ -6,10 +6,16 @@ import javax.inject.Inject
 
 class BreedsRepositoryImp @Inject constructor(
     private val breedsDataSource: BreedsDataSource
-): BreedsRepository {
+) : BreedsRepository {
     override suspend fun getAllBreeds(): Resource<List<String>> =
         breedsDataSource.getAllBreeds()
 
     override suspend fun getBreedImage(breed: String): Resource<String> =
         breedsDataSource.getBreedImage(breed)
+
+    override suspend fun getAllSubBreeds(breed: String): Resource<List<String>> =
+        breedsDataSource.getAllSubBreeds(breed)
+
+    override suspend fun getSubBreedImage(breed: String, subBreed: String): Resource<String> =
+        breedsDataSource.getSubBreedImage(breed, subBreed)
 }

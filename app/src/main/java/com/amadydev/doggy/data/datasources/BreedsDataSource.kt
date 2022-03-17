@@ -13,4 +13,12 @@ class BreedsDataSource @Inject constructor(
     suspend fun getBreedImage(breed: String) = getResult {
         breedsService.getBreedImage(breed)
     }
+
+    suspend fun getAllSubBreeds(breed: String) = getResult {
+        breedsService.getAllSubBreeds(breed)
+    }
+
+    suspend fun getSubBreedImage(breed: String, subBreed: String) = getResult {
+        breedsService.getSubBreedImage(breed, subBreed)
+    }
 }

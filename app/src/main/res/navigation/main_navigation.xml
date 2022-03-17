@@ -9,5 +9,20 @@
         android:id="@+id/breedsFragment"
         android:name="com.amadydev.doggy.ui.breeds.BreedsFragment"
         android:label="Breeds"
-        tools:layout="@layout/fragment_breeds" />
+        tools:layout="@layout/fragment_breeds" >
+        <action
+            android:id="@+id/action_breedsFragment_to_subBreedsFragment"
+            app:destination="@id/subBreedsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/subBreedsFragment"
+        android:name="com.amadydev.doggy.ui.subbreeds.SubBreedsFragment"
+        android:label="fragment_sub_breeds"
+        tools:layout="@layout/fragment_sub_breeds" >
+        <argument
+            android:name="dog"
+            app:argType="com.amadydev.doggy.data.models.Dog" />
+    </fragment>
 </navigation>

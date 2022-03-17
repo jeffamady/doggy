@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface BreedsService {
     @GET("breeds/list")
-    suspend fun getAllBreeds () : Response<DogApiResponse<List<String>>>
+    suspend fun getAllBreeds(): Response<DogApiResponse<List<String>>>
 
     @GET("breed/{breed}/images/random")
     suspend fun getBreedImage(
@@ -15,7 +15,18 @@ interface BreedsService {
     ): Response<DogApiResponse<String>>
 
     @GET("breed/{breed}/list")
-    suspend fun getAllSubBreed(
+    suspend fun getAllSubBreeds(
+        @Path("breed") breed: String
+    ): Response<DogApiResponse<List<String>>>
+
+    @GET("breed/{breed}/{subBreed}/images/random")
+    suspend fun getSubBreedImage(
+        @Path("breed") breed: String,
+        @Path("subBreed") subBreed: String
+    ): Response<DogApiResponse<String>>
+
+    @GET("breed/{breed}/images")
+    suspend fun searchBreed(
         @Path("breed") breed: String
     ): Response<DogApiResponse<List<String>>>
 }

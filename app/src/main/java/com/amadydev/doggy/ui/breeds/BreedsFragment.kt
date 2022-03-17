@@ -2,10 +2,10 @@ package com.amadydev.doggy.ui.breeds
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.amadydev.doggy.R
 import com.amadydev.doggy.data.models.Dog
 import com.amadydev.doggy.databinding.FragmentBreedsBinding
@@ -82,7 +82,8 @@ class BreedsFragment : Fragment(), BreedsAdapter.OnBreedClickListener {
     }
 
     override fun onBreedClicked(dog: Dog) {
-        Toast.makeText(requireContext(), dog.breed.plus(" clicked"), Toast.LENGTH_SHORT)
-            .show()
+        BreedsFragmentDirections.actionBreedsFragmentToSubBreedsFragment(dog).apply {
+            findNavController().navigate(this)
+        }
     }
 }
