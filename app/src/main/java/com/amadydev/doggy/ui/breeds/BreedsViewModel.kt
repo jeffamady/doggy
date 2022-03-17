@@ -33,10 +33,11 @@ class BreedsViewModel @Inject constructor(
             }.run {
                 when (status) {
                     Resource.Status.SUCCESS -> {
+                        mDogList.clear()
                         data?.let { it ->
-//                            it.slice(0..15).forEach { breed ->
-                            it.forEach { breed ->
-                                getDogImage(breed, it.size)
+                            it.slice(0..15).forEach { breed ->
+//                            it.forEach { breed ->
+                                getDogImage(breed)
                             }
                         }
                     }
@@ -51,7 +52,7 @@ class BreedsViewModel @Inject constructor(
 
     fun retry() = getAllBreeds()
 
-    private fun getDogImage(breed: String, size: Int) {
+    private fun getDogImage(breed: String) {
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 breedsRepository.getBreedImage(breed)
@@ -64,7 +65,36 @@ class BreedsViewModel @Inject constructor(
                                 Dog(breed, it)
                             )
                         }
-                        if (mDogList.size == size) {
+//                        if (mDogList.size == size) {
+                        _breedsState.value = BreedsState.Loading(false)
+                        _breedsState.value = BreedsState.Success(mDogList)
+//                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        _breedsState.value = BreedsState.Loading(false)
+                        _breedsState.value = BreedsState.Error(resId)
+                    }
+                }
+            }
+        }
+    }
+
+    fun searchBreed(query: String) {
+        _breedsState.value = BreedsState.Loading(true)
+        viewModelScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                breedsRepository.searchBreed(query)
+            }.run {
+                when (status) {
+                    Resource.Status.SUCCESS -> {
+                        data?.let { it ->
+//                            it.slice(0..15).forEach { breed ->
+                            mDogList.clear()
+                            it.forEach { imageUrl ->
+                                mDogList.add(
+                                    Dog(query, imageUrl)
+                                )
+                            }
                             _breedsState.value = BreedsState.Loading(false)
                             _breedsState.value = BreedsState.Success(mDogList)
                         }

@@ -18,4 +18,7 @@ class BreedsRepositoryImp @Inject constructor(
 
     override suspend fun getSubBreedImage(breed: String, subBreed: String): Resource<String> =
         breedsDataSource.getSubBreedImage(breed, subBreed)
+
+    override suspend fun searchBreed(breed: String): Resource<List<String>> =
+        breedsDataSource.searchBreed(breed)
 }

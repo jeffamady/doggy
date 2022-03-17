@@ -10,16 +10,12 @@ abstract class BaseDataSource {
     protected suspend fun <T> getResult(call: suspend () -> Response<DogApiResponse<T>>): Resource<T> {
         try {
             val response = call()
-            if (response.isSuccessful) {
-                if (response.code() == 200) {
-                    response.body()?.results?.let {
-                        return Resource.success(it)
-                    }
-                } else {
-                    return Resource.error(R.string.no_result)
+            if (response.isSuccessful && response.code() == 200) {
+                response.body()?.results?.let {
+                    return Resource.success(it)
                 }
             }
-            return Resource.error(R.string.sorry_something_went_wrong)
+            return Resource.error(R.string.no_result)
         } catch (e: Exception) {
             return Resource.error(R.string.no_internet)
         }

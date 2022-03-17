@@ -11,4 +11,6 @@ interface BreedsRepository {
     suspend fun getAllSubBreeds(breed: String): Resource<List<String>>
 
     suspend fun getSubBreedImage(breed: String, subBreed: String): Resource<String>
+
+    suspend fun searchBreed(breed: String): Resource<List<String>>
 }

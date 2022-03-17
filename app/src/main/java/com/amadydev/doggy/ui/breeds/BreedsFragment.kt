@@ -2,6 +2,7 @@ package com.amadydev.doggy.ui.breeds
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -72,7 +73,21 @@ class BreedsFragment : Fragment(), BreedsAdapter.OnBreedClickListener {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.breed_menu, menu)
 
-        // Todo search breeds
+        val searchItem = menu.findItem(R.id.iSearch)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean = true
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrEmpty()) {
+                    binding.rvBreeds.scrollToPosition(0)
+                    viewModel.searchBreed(query)
+                    searchView.clearFocus()
+                }
+                return true
+            }
+        })
 
     }
 
