@@ -42,8 +42,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setActionBarTitle(title: String = getString(R.string.app_name)) {
+    fun setActionBarTitleAndAllowBack(title: String = getString(R.string.app_name), allowBack: Boolean = false) {
         binding.tvToolbar.text = title
+        clickBack = allowBack
     }
 
     private fun clickBackToExit() {

@@ -70,7 +70,7 @@ class SubBreedsFragment : Fragment() {
     private fun setupUi() {
         val dog = args.dog
         (activity as MainActivity).apply {
-            setActionBarTitle(dog.breed)
+            setActionBarTitleAndAllowBack(dog.breed, true)
         }
         with(binding) {
             ivBreed.load(dog.imageUrl)
@@ -105,7 +105,7 @@ class SubBreedsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as MainActivity).apply {
-            setActionBarTitle()
+            setActionBarTitleAndAllowBack()
         }
         _binding = null
     }
