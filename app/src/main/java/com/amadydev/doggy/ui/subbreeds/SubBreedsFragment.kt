@@ -39,15 +39,16 @@ class SubBreedsFragment : Fragment() {
             with(binding) {
                 when (it) {
                     is SubBreedsViewModel.SubBreedsState.Success -> {
+                        setDataAndShowRecycler(it.dogsList)
                         subBreedsContainer.isVisible = true
                         iError.root.isVisible = false
                         loading.root.isVisible = false
-                        setDataAndShowRecycler(it.dogsList)
                     }
                     is SubBreedsViewModel.SubBreedsState.Loading -> {
                         subBreedsContainer.isVisible = false
                         iError.root.isVisible = false
                         loading.root.isVisible = it.isLoading
+                        swipeRefreshLayout.isRefreshing = false
                     }
                     is SubBreedsViewModel.SubBreedsState.Error -> {
                         subBreedsContainer.isVisible = false
@@ -79,9 +80,15 @@ class SubBreedsFragment : Fragment() {
     }
 
     private fun setListeners() {
-        // Retry
-        binding.iError.btnRetry.setOnClickListener {
-            viewModel.getAllSubBreeds(args.dog.breed)
+        with(binding) {
+            // Retry
+            iError.btnRetry.setOnClickListener {
+                setupUi()
+            }
+
+            swipeRefreshLayout.setOnRefreshListener {
+                setupUi()
+            }
         }
     }
 

@@ -19,7 +19,8 @@ class SubBreedsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _subBreedsState = MutableLiveData<SubBreedsState>()
     val subBreedsState: LiveData<SubBreedsState> = _subBreedsState
-    private val mDogList = mutableListOf<Dog>()
+    private val _dogList = mutableListOf<Dog>()
+    private val dogList: List<Dog> get() = _dogList
 
     fun getAllSubBreeds(breed: String) {
         _subBreedsState.value = SubBreedsState.Loading(true)
@@ -35,7 +36,7 @@ class SubBreedsViewModel @Inject constructor(
                                 _subBreedsState.value = SubBreedsState.Empty
                             }
                             it.forEach { subBreed ->
-                                getSubBreedImage(breed, subBreed, it.size)
+                                getSubBreedImage(breed, subBreed)
                             }
                         }
                     }
@@ -48,7 +49,7 @@ class SubBreedsViewModel @Inject constructor(
         }
     }
 
-    private fun getSubBreedImage(breed: String, subBreed: String, size: Int) {
+    private fun getSubBreedImage(breed: String, subBreed: String) {
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 breedsRepository.getSubBreedImage(breed, subBreed)
@@ -57,14 +58,13 @@ class SubBreedsViewModel @Inject constructor(
                     Resource.Status.SUCCESS -> {
                         // Adding the image to the dogList
                         data?.let {
-                            mDogList.add(
+                            _dogList.clear()
+                            _dogList.add(
                                 Dog(subBreed, it)
                             )
                         }
-                        if (mDogList.size == size) {
-                            _subBreedsState.value = SubBreedsState.Loading(false)
-                            _subBreedsState.value = SubBreedsState.Success(mDogList)
-                        }
+                        _subBreedsState.value = SubBreedsState.Loading(false)
+                        _subBreedsState.value = SubBreedsState.Success(dogList)
                     }
                     Resource.Status.ERROR -> {
                         _subBreedsState.value = SubBreedsState.Loading(false)

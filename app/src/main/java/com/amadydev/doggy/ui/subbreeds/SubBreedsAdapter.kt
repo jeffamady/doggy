@@ -49,17 +49,6 @@ class SubBreedsAdapter :
         }
     }
 
-    //    fun addHeaderAndSubmitList(list: List<SleepNight>?) {
-//        CoroutineScope(Dispatchers.Default).launch {
-//            val items: List<DataItem> = when (list) {
-//                null -> listOf(DataItem.Header)
-//                else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
-//            }
-//            withContext(Dispatchers.Main){
-//                submitList(items)
-//            }
-//        }
-//    }
     fun addHeaderAndSubmitList(list: List<Dog>) {
         CoroutineScope(Dispatchers.Default).launch {
             val items: List<DataItem> =

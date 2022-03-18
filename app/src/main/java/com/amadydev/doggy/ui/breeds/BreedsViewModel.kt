@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.amadydev.doggy.data.datasources.Resource
 import com.amadydev.doggy.data.models.Dog
 import com.amadydev.doggy.data.repositories.BreedsRepositoryImp
+import com.amadydev.doggy.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +20,11 @@ class BreedsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _breedsState = MutableLiveData<BreedsState>()
     val breedsState: LiveData<BreedsState> = _breedsState
-    private val mDogList = mutableListOf<Dog>()
+    private var _breeds = mutableListOf<String>()
+    private val _dogList = mutableListOf<Dog>()
+    private val dogList: List<Dog> get() = _dogList
+    private var start = Constants.START
+    private var end = Constants.END
 
     init {
         getAllBreeds()
@@ -33,12 +38,12 @@ class BreedsViewModel @Inject constructor(
             }.run {
                 when (status) {
                     Resource.Status.SUCCESS -> {
-                        mDogList.clear()
+                        reset()
                         data?.let { it ->
-                            it.slice(0..15).forEach { breed ->
-//                            it.forEach { breed ->
-                                getDogImage(breed)
+                            it.forEach {
+                                _breeds.add(it)
                             }
+                            loadImages()
                         }
                     }
                     Resource.Status.ERROR -> {
@@ -53,6 +58,7 @@ class BreedsViewModel @Inject constructor(
     fun retry() = getAllBreeds()
 
     private fun getDogImage(breed: String) {
+        _breedsState.value = BreedsState.Loading(true)
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 breedsRepository.getBreedImage(breed)
@@ -61,14 +67,12 @@ class BreedsViewModel @Inject constructor(
                     Resource.Status.SUCCESS -> {
                         // Adding the image to the dogList
                         data?.let {
-                            mDogList.add(
+                            _dogList.add(
                                 Dog(breed, it)
                             )
                         }
-//                        if (mDogList.size == size) {
                         _breedsState.value = BreedsState.Loading(false)
-                        _breedsState.value = BreedsState.Success(mDogList)
-//                        }
+                        _breedsState.value = BreedsState.Success(dogList)
                     }
                     Resource.Status.ERROR -> {
                         _breedsState.value = BreedsState.Loading(false)
@@ -88,15 +92,14 @@ class BreedsViewModel @Inject constructor(
                 when (status) {
                     Resource.Status.SUCCESS -> {
                         data?.let { it ->
-//                            it.slice(0..15).forEach { breed ->
-                            mDogList.clear()
+                            reset()
                             it.forEach { imageUrl ->
-                                mDogList.add(
+                                _dogList.add(
                                     Dog(query, imageUrl)
                                 )
                             }
                             _breedsState.value = BreedsState.Loading(false)
-                            _breedsState.value = BreedsState.Success(mDogList)
+                            _breedsState.value = BreedsState.Success(dogList)
                         }
                     }
                     Resource.Status.ERROR -> {
@@ -108,6 +111,23 @@ class BreedsViewModel @Inject constructor(
         }
     }
 
+    fun loadImages() {
+        // To use pagination
+        if (end < _breeds.size) {
+            _breeds.slice(start..end).forEach { breed ->
+                getDogImage(breed)
+            }
+            start = end
+            end += Constants.NEXT
+        }
+    }
+
+    private fun reset() {
+        _breeds.clear()
+        _dogList.clear()
+        start = Constants.START
+        end = Constants.END
+    }
 
     sealed class BreedsState {
         data class Success(val dogsList: List<Dog>) : BreedsState()
