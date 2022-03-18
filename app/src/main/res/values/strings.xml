@@ -10,4 +10,5 @@
     <string name="a_dog">a dog</string>
     <string name="no_sub_breeds">Sorry, %1$s has no sub breed.</string>
     <string name="sub_breeds">Sub Breeds</string>
+    <string name="please_click_back">Please click back again to exit</string>
 </resources>
