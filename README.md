@@ -5,7 +5,17 @@
 ## This application is connected to the API: <https://dog.ceo/dog-api/>. With this project you can see, and search **Dogs** by **Breeds**.
 
 ## Technologies
-
+* material:1.5.0
+* constraintlayout:2.1.3
+* livedata-ktx:2.4.1
+* dagger:hilt-android:2.39.1
+* fragment-ktx:2.4.1
+* navigation-ui-ktx:2.4.1
+* coil:2.0.0-rc01
+* customactivityoncrash:2.3.0
+* mockk:1.12.2
+* junit:4.13.2
+* espresso-core:3.4.0
 
 ## Setup
 To run this project, install Android Studio and run it on an android emulator or phone.
