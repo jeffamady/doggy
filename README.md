@@ -5,17 +5,7 @@
 ## This application is connected to the API: <https://dog.ceo/dog-api/>. With this project you can see, and search **Dogs** by **Breeds**.
 
 ## Technologies
-* typescript v4.1.2
-* React         v17.0.2
-* React-Dom     v17.0.2
-* react-scripts v4.0.3
-* axios         v0.21.1
-* bootswatch    v5.0.1
-* react-confirm-alert v2.7.0
-* react-player v2.9.0
-* react-router-dom v5.2.0
-* react-toastify 7.0.4
-* web-vitals v1.0.1
+
 
 ## Setup
 To run this project, install Android Studio and run it on an android emulator or phone.
